@@ -5,6 +5,8 @@ INCLUDE	=	-Iinclude
 CFLAGS	=	-Wall -Wextra -O2 -g3 -fPIC -pipe $(INCLUDE)
 LDFLAGS	=
 
+INSTALL_PREFIX	=	/usr/local
+
 SRC		=	src/easyconf.c			\
 			src/parameter.c
 
@@ -22,7 +24,7 @@ STLIB_FILE	=	lib$(LIB_NAME).a
 TEST_FILE	=	$(LIB_NAME)_tests
 
 
-.PHONY:	all	test	clean
+.PHONY:	all	test	clean	install	uninstall
 
 all:	$(DYNLIB_FILE)	$(STLIB_FILE)
 
@@ -31,6 +33,17 @@ test:	$(TEST_FILE)
 
 clean:
 	rm -rf obj *.gcda *.gcno vgcore.*
+
+install:	$(DYNLIB_FILE)	$(STLIB_FILE)
+	mkdir -p $(INSTALL_PREFIX)/include/
+	mkdir -p $(INSTALL_PREFIX)/lib/
+	cp -i include/easyconf.h $(INSTALL_PREFIX)/include/
+	cp -i $(DYNLIB_FILE) $(STLIB_FILE) $(INSTALL_PREFIX)/lib/
+
+uninstall:
+	rm -f $(INSTALL_PREFIX)/include/easyconf.h
+	rm -f $(INSTALL_PREFIX)/lib/$(DYNLIB_FILE)
+	rm -f $(INSTALL_PREFIX)/lib/$(STLIB_FILE)
 
 $(DYNLIB_FILE):	$(OBJ)
 	$(LD) -shared -o $@ $(OBJ) $(LDFLAGS)
