@@ -1,0 +1,12 @@
+.vscode/
+*.o
+*.d
+*.i
+*.so
+*.a
+*.dll
+*.exe
+vgcore.*
+*.gcno
+*.gcda
+easyconf_tests
