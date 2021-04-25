@@ -75,3 +75,69 @@ int ecp_set_value(ecp_t *ecp, const char *value)
     }
     return 0;
 }
+
+ecp_t *ecp_parse_line(const char *line)
+{
+    char *buf = NULL;
+    size_t buflen;
+    char *tmp;
+    ecp_t *ecp;
+    char *p_name;
+    char *p_value;
+
+    if (!line) goto fail;
+    if (!(buf = strdup(line))) goto fail;
+    if (!(buflen = strlen(buf))) goto fail;
+
+    // Remove trailing newline if present
+    if (buf[buflen - 1] == '\n')
+        buf[--buflen] = '\0';
+
+    // Remove comments
+    if ((tmp = strchr(buf, '#'))) {
+        // The character starts a comment if it not preceded by a backslash
+        if (!((tmp - 1) >= buf && *(tmp - 1) == '\\'))
+            *tmp = '\0';
+    }
+
+    // Ignore whitespaces before parameter name
+    for (p_name = buf; *p_name == ' ' || *p_name == '\t'; ++p_name);
+    if (!(*p_name)) goto fail;
+
+    // Go to the first whitespace separator and change it a \0
+    for (p_value = p_name; *p_value && *p_value != ' ' && *p_value != '\t'; ++p_value);
+
+    // Move to the next character and end the parameter value
+    // if we haven't reached the end of the line
+    if (*p_value) {
+        *p_value = '\0';
+        ++p_value;
+    }
+
+    // Ignore whitespaces before the value
+    for (; *p_value == ' ' || *p_value == '\t'; ++p_value);
+
+    // Remove trailing whitespaces
+    // The first character is ignored here but it cannot be a whitespace
+    tmp = p_value + strlen(p_value);
+    while (tmp >= p_value) {
+        if (*tmp == ' ' || *tmp == '\t') {
+            *tmp = '\0';
+        } else {
+            break;
+        }
+        --tmp;
+    }
+
+    // If the final value is empty, set it to NULL
+    if (!(*p_value))
+        p_value = NULL;
+
+    ecp = ecp_create(p_name, p_value);
+    free(buf);
+    return ecp;
+
+fail:
+    free(buf);
+    return NULL;
+}

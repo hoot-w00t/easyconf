@@ -118,6 +118,12 @@ The value is unchanged on error
 int ecp_set_value(ecp_t *ecp, const char *value);
 
 /*
+Return ecp_t with the values parsed from *line
+Return NULL on error
+*/
+ecp_t *ecp_parse_line(const char *line);
+
+/*
 Return a const char * to ecp->name
 */
 static inline const char *ecp_name(ecp_t *ecp)
@@ -132,6 +138,8 @@ static inline const char *ecp_value(ecp_t *ecp)
 {
     return ecp ? ecp->value : NULL;
 }
+
+
 
 /*
 Iterate through every item in ec starting from the beginning

@@ -1,4 +1,5 @@
 #include "easyconf.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -100,12 +101,53 @@ int ec_unset(ec_t *ec, const char *name)
 
 ec_t *ec_load_from_file(const char *filename)
 {
-#warning "Not implemented yet: ec_load_from_file"
-    return NULL; // TODO
+    size_t n = 0;
+    char *line = NULL;
+    ssize_t len;
+    FILE *file;
+    ec_t *ec;
+    ecp_t *ecp;
+
+    if (!(file = fopen(filename, "r")))
+        return NULL;
+    if (!(ec = ec_create())) {
+        fclose(file);
+        return NULL;
+    }
+
+    while ((len = getline(&line, &n, file)) >= 0) {
+        if ((ecp = ecp_parse_line(line)))
+            ec_append(ec, ecp);
+
+        free(line);
+        line = NULL;
+    }
+    free(line);
+    fclose(file);
+    if (len < 0) {
+        ec_destroy(ec);
+        return NULL;
+    }
+    return ec;
 }
 
 int ec_save_to_file(ec_t *ec, const char *filename)
 {
-#warning "Not implemented yet: ec_save_to_file"
-    return -1; // TODO
+    FILE *file;
+
+    if (!(file = fopen(filename, "r")))
+        return -1;
+
+    ec_foreach(ecp, ec) {
+        if (ecp->name) {
+            if (ecp->value) {
+                fprintf(file, "%s\t%s\n", ecp->name, ecp->value);
+            } else {
+                fprintf(file, "%s\n", ecp->name);
+            }
+        }
+    }
+    fflush(file);
+    fclose(file);
+    return 0;
 }
