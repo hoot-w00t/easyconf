@@ -124,10 +124,6 @@ ec_t *ec_load_from_file(const char *filename)
     }
     free(line);
     fclose(file);
-    if (len < 0) {
-        ec_destroy(ec);
-        return NULL;
-    }
     return ec;
 }
 
