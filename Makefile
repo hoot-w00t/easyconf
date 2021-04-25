@@ -1,5 +1,5 @@
 CC	=	cc
-LD	=	ld
+LD	=	$(CC)
 AR	=	ar
 INCLUDE	=	-Iinclude
 CFLAGS	=	-Wall -Wextra -O2 -g3 -fPIC -pipe $(INCLUDE)
