@@ -94,10 +94,14 @@ ecp_t *ecp_parse_line(const char *line)
         buf[--buflen] = '\0';
 
     // Remove comments
-    if ((tmp = strchr(buf, '#'))) {
+    tmp = buf;
+    while ((tmp = strchr(tmp, '#'))) {
         // The character starts a comment if it not preceded by a backslash
-        if (!((tmp - 1) >= buf && *(tmp - 1) == '\\'))
+        if (!((tmp - 1) >= buf && *(tmp - 1) == '\\')) {
             *tmp = '\0';
+            break;
+        }
+        ++tmp;
     }
 
     // Ignore whitespaces before parameter name
