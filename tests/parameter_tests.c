@@ -141,3 +141,53 @@ Test(ecp_value, null_pointer)
 {
     cr_assert_eq(ecp_value(NULL), NULL);
 }
+
+Test(ecp_parse_line, parse_invalid_line)
+{
+    ecp_t *ecp = ecp_parse_line(" \t\t ");
+    ecp_t *ecp2 = ecp_parse_line("\t  \t");
+
+    cr_assert_eq(ecp, NULL);
+    cr_assert_eq(ecp2, NULL);
+}
+
+Test(ecp_parse_line, parse_empty_line)
+{
+    ecp_t *ecp = ecp_parse_line("");
+
+    cr_assert_eq(ecp, NULL);
+}
+
+Test(ecp_parse_line, null_pointer)
+{
+    ecp_t *ecp = ecp_parse_line(NULL);
+
+    cr_assert_eq(ecp, NULL);
+}
+
+Test(ecp_parse_line, with_name_only)
+{
+    ecp_t *ecp = ecp_parse_line("Param");
+
+    cr_assert_neq(ecp, NULL);
+    cr_assert_eq(ecp->next, NULL);
+    cr_assert_eq(ecp->prev, NULL);
+    cr_assert_neq(ecp->name, NULL);
+    cr_assert_eq(ecp->value, NULL);
+    cr_assert_str_eq(ecp->name, "Param");
+    ecp_free(ecp);
+}
+
+Test(ecp_parse_line, with_name_and_value)
+{
+    ecp_t *ecp = ecp_parse_line("Param   \t \tValue\t");
+
+    cr_assert_neq(ecp, NULL);
+    cr_assert_eq(ecp->next, NULL);
+    cr_assert_eq(ecp->prev, NULL);
+    cr_assert_neq(ecp->name, NULL);
+    cr_assert_neq(ecp->value, NULL);
+    cr_assert_str_eq(ecp->name, "Param");
+    cr_assert_str_eq(ecp->value, "Value");
+    ecp_free(ecp);
+}
