@@ -1,4 +1,5 @@
 #include "easyconf.h"
+#include "getline.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -101,9 +102,7 @@ int ec_unset(ec_t *ec, const char *name)
 
 ec_t *ec_load_from_file(const char *filename)
 {
-    size_t n = 0;
-    char *line = NULL;
-    ssize_t len;
+    char *line;
     FILE *file;
     ec_t *ec;
     ecp_t *ecp;
@@ -115,12 +114,10 @@ ec_t *ec_load_from_file(const char *filename)
         return NULL;
     }
 
-    while ((len = getline(&line, &n, file)) >= 0) {
+    while ((line = ec_getline(file))) {
         if ((ecp = ecp_parse_line(line)))
             ec_append(ec, ecp);
-
         free(line);
-        line = NULL;
     }
     free(line);
     fclose(file);

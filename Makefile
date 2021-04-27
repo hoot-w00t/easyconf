@@ -8,9 +8,11 @@ LDFLAGS	=
 INSTALL_PREFIX	=	/usr/local
 
 SRC		=	src/easyconf.c			\
+			src/getline.c			\
 			src/parameter.c
 
 TEST_SRC	=	tests/easyconf_tests.c		\
+			tests/getline_tests.c		\
 			tests/parameter_tests.c
 
 OBJ		=	$(SRC:%.c=obj/%.o)
