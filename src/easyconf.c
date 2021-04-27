@@ -119,7 +119,6 @@ ec_t *ec_load_from_file(const char *filename)
             ec_append(ec, ecp);
         free(line);
     }
-    free(line);
     fclose(file);
     return ec;
 }
