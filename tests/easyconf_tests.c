@@ -326,3 +326,15 @@ Test(ec_unset, unset_non_existent)
     ec_destroy(empty);
     ec_destroy(ec);
 }
+
+Test(ec_load_from_file, ec_load_from_file)
+{
+    ec_t *ec = ec_load_from_file("./tests/test.conf");
+
+    cr_assert_neq(ec, NULL);
+    cr_assert_str_eq(ecp_value(ec_find(ec, "L1")), "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+    cr_assert_str_eq(ecp_value(ec_find(ec, "L2")), "Sed non risus.");
+    cr_assert_str_eq(ecp_value(ec_find(ec, "L3")), "Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,");
+    cr_assert_str_eq(ecp_value(ec_find(ec, "L4")), "ultricies sed, dolor.");
+    ec_destroy(ec);
+}
