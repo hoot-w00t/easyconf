@@ -128,7 +128,7 @@ int ec_save_to_file(ec_t *ec, const char *filename)
 {
     FILE *file;
 
-    if (!(file = fopen(filename, "r")))
+    if (!(file = fopen(filename, "w")))
         return -1;
 
     ec_foreach(ecp, ec) {
