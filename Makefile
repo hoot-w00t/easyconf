@@ -1,3 +1,4 @@
+UNAME	=	$(shell uname)
 CC	=	cc
 LD	=	$(CC)
 AR	=	ar
@@ -21,12 +22,16 @@ DEP		=	$(OBJ:.o=.d)
 TEST_DEP	=	$(TEST_OBJ:.o=.d)
 
 LIB_NAME	=	easyconf
-DYNLIB_FILE	=	lib$(LIB_NAME).so
+ifeq ($(UNAME), Linux)
+	DYNLIB_FILE	=	lib$(LIB_NAME).so
+else
+	DYNLIB_FILE	=	lib$(LIB_NAME).dll
+endif
 STLIB_FILE	=	lib$(LIB_NAME).a
 TEST_FILE	=	$(LIB_NAME)_tests
 
 
-.PHONY:	all	test	clean	install	uninstall
+.PHONY:	all	test	clean	fclean	install	uninstall
 
 all:	$(DYNLIB_FILE)	$(STLIB_FILE)
 
@@ -35,6 +40,9 @@ test:	$(TEST_FILE)
 
 clean:
 	rm -rf obj *.gcda *.gcno vgcore.*
+
+fclean:	clean
+	rm -f $(DYNLIB_FILE) $(STLIB_FILE) $(TEST_FILE)
 
 install:	$(DYNLIB_FILE)	$(STLIB_FILE)
 	mkdir -p $(INSTALL_PREFIX)/include/
