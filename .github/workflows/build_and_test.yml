@@ -1,0 +1,59 @@
+name: Build and run unit tests
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ '**' ]
+
+jobs:
+  linux_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install requirements
+        run: sudo apt-get update && sudo apt-get install -yq build-essential git
+
+      - uses: actions/checkout@v2
+      - name: Build project
+        run: make
+
+  linux_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install requirements
+        run: sudo apt-get update && sudo apt-get install -yq build-essential git
+
+      - uses: actions/checkout@v2
+        with:
+          repository: Snaipe/Criterion
+          ref: v2.3.3
+
+      - name: Build and install Criterion
+        run: |
+          mkdir build
+          cd build
+          cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
+          make
+          sudo make install
+
+      - uses: actions/checkout@v2
+      - name: Build project and run unit tests
+        run: make test
+
+  windows_build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            base-devel
+            git
+            mingw-w64-x86_64-toolchain
+
+      - uses: actions/checkout@v2
+      - name: Build project
+        run: make
