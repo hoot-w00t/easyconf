@@ -122,8 +122,7 @@ ecp_t *ecp_parse_line(const char *line)
     for (; *p_value == ' ' || *p_value == '\t'; ++p_value);
 
     // Remove trailing whitespaces
-    // The first character is ignored here but it cannot be a whitespace
-    tmp = p_value + strlen(p_value);
+    tmp = p_value + strlen(p_value) - 1;
     while (tmp >= p_value) {
         if (*tmp == ' ' || *tmp == '\t') {
             *tmp = '\0';
