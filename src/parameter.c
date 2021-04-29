@@ -101,7 +101,7 @@ ecp_t *ecp_parse_line(const char *line)
             *tmp = '\0';
             break;
         }
-        ++tmp;
+        memmove(tmp - 1, tmp, strlen(tmp) + 1);
     }
 
     // Ignore whitespaces before parameter name
