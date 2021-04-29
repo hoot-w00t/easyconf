@@ -191,3 +191,31 @@ Test(ecp_parse_line, with_name_and_value)
     cr_assert_str_eq(ecp->value, "Value");
     ecp_free(ecp);
 }
+
+Test(ecp_parse_line, with_comment)
+{
+    ecp_t *ecp = ecp_parse_line("Param Value # Comment");
+
+    cr_assert_neq(ecp, NULL);
+    cr_assert_eq(ecp->next, NULL);
+    cr_assert_eq(ecp->prev, NULL);
+    cr_assert_neq(ecp->name, NULL);
+    cr_assert_neq(ecp->value, NULL);
+    cr_assert_str_eq(ecp->name, "Param");
+    cr_assert_str_eq(ecp->value, "Value");
+    ecp_free(ecp);
+}
+
+Test(ecp_parse_line, with_escaped_comment)
+{
+    ecp_t *ecp = ecp_parse_line("Param Value \\# # Comment");
+
+    cr_assert_neq(ecp, NULL);
+    cr_assert_eq(ecp->next, NULL);
+    cr_assert_eq(ecp->prev, NULL);
+    cr_assert_neq(ecp->name, NULL);
+    cr_assert_neq(ecp->value, NULL);
+    cr_assert_str_eq(ecp->name, "Param");
+    cr_assert_str_eq(ecp->value, "Value #");
+    ecp_free(ecp);
+}
