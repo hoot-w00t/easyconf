@@ -1,4 +1,5 @@
 .vscode/
+build*/
 *.o
 *.d
 *.i
@@ -9,4 +10,6 @@
 vgcore.*
 *.gcno
 *.gcda
-easyconf_tests
+*.txt
+!CMakeLists.txt
+pkgconf/easyconf.pc

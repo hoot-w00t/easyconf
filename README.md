@@ -7,5 +7,7 @@ This is a simple C library to handle very simple configuration files
 ```sh
 git clone https://github.com/hoot-w00t/easyconf
 cd easyconf
+mkdir build && cd build
+cmake ..
 make
 ```
