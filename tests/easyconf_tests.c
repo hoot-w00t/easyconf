@@ -336,5 +336,9 @@ Test(ec_load_from_file, ec_load_from_file)
     cr_assert_str_eq(ecp_value(ec_find(ec, "L2")), "Sed non risus.");
     cr_assert_str_eq(ecp_value(ec_find(ec, "L3")), "Suspendisse lectus tortor, dignissim sit amet, adipiscing nec,");
     cr_assert_str_eq(ecp_value(ec_find(ec, "L4")), "ultricies sed, dolor.");
+    cr_assert_eq(ecp_line_no(ec_find(ec, "L1")), 1);
+    cr_assert_eq(ecp_line_no(ec_find(ec, "L2")), 2);
+    cr_assert_eq(ecp_line_no(ec_find(ec, "L3")), 3);
+    cr_assert_eq(ecp_line_no(ec_find(ec, "L4")), 5);
     ec_destroy(ec);
 }

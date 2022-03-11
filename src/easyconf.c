@@ -104,6 +104,7 @@ ec_t *ec_load_from_file(const char *filename)
 {
     char *line;
     FILE *file;
+    size_t line_no;
     ec_t *ec;
     ecp_t *ecp;
 
@@ -114,10 +115,14 @@ ec_t *ec_load_from_file(const char *filename)
         return NULL;
     }
 
+    line_no = 1;
     while ((line = ec_getline(file))) {
-        if ((ecp = ecp_parse_line(line)))
+        if ((ecp = ecp_parse_line(line))) {
+            ecp->line_no = line_no;
             ec_append(ec, ecp);
+        }
         free(line);
+        line_no += 1;
     }
     fclose(file);
     return ec;

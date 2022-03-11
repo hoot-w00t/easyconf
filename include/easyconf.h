@@ -17,10 +17,11 @@ struct easyconf {
 };
 
 struct easyconf_parameter {
-    char *name;  /* Parameter name */
-    char *value; /* Parameter value */
-    ecp_t *next; /* Next parameter in the linked list */
-    ecp_t *prev; /* Previous parameter in the linked list */
+    char *name;     /* Parameter name */
+    char *value;    /* Parameter value */
+    size_t line_no; /* Line number */
+    ecp_t *next;    /* Next parameter in the linked list */
+    ecp_t *prev;    /* Previous parameter in the linked list */
 };
 
 /* easyconf.c */
@@ -137,6 +138,14 @@ Return a const char * to ecp->value
 static inline const char *ecp_value(ecp_t *ecp)
 {
     return ecp ? ecp->value : NULL;
+}
+
+/*
+Return line number from ecp->line_no
+*/
+static inline size_t ecp_line_no(const ecp_t *ecp)
+{
+    return ecp->line_no;
 }
 
 
