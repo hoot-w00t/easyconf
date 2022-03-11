@@ -91,6 +91,7 @@ ecp_t *ecp_create(const char *name, const char *value);
 
 /*
 Return a newly allocated copy of *ecp
+The line number is not copied and will be initialized to 0
 Return NULL on error
 */
 ecp_t *ecp_dup(const ecp_t *ecp);
