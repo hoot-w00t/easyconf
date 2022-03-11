@@ -134,7 +134,7 @@ ecp_t *ecp_parse_line(const char *line);
 /*
 Return a const char * to ecp->name
 */
-static inline const char *ecp_name(ecp_t *ecp)
+static inline const char *ecp_name(const ecp_t *ecp)
 {
     return ecp ? ecp->name : NULL;
 }
@@ -142,7 +142,7 @@ static inline const char *ecp_name(ecp_t *ecp)
 /*
 Return a const char * to ecp->value
 */
-static inline const char *ecp_value(ecp_t *ecp)
+static inline const char *ecp_value(const ecp_t *ecp)
 {
     return ecp ? ecp->value : NULL;
 }
