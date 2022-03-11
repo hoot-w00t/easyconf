@@ -76,6 +76,13 @@ int ecp_set_value(ecp_t *ecp, const char *value)
     return 0;
 }
 
+int ecp_set_line_no(ecp_t *ecp, size_t line_no)
+{
+    if (!ecp) return -1;
+    ecp->line_no = line_no;
+    return 0;
+}
+
 ecp_t *ecp_parse_line(const char *line)
 {
     char *buf = NULL;

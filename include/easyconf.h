@@ -119,6 +119,12 @@ The value is unchanged on error
 int ecp_set_value(ecp_t *ecp, const char *value);
 
 /*
+Set ecp->line_no to line_no
+Return -1 if ecp is NULL, 0 otherwise
+*/
+int ecp_set_line_no(ecp_t *ecp, size_t line_no);
+
+/*
 Return ecp_t with the values parsed from *line
 Return NULL on error
 */
