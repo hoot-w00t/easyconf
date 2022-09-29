@@ -30,8 +30,9 @@ add_library(easyconf ${EASYCONF_SOURCES})
 set_target_properties(easyconf PROPERTIES PUBLIC_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/include/easyconf.h")
 
 # easyconf.pc
-set(EASYCONF_PC "${CMAKE_CURRENT_SOURCE_DIR}/pkgconf/easyconf.pc")
-configure_file(${EASYCONF_PC}.in ${EASYCONF_PC} @ONLY)
+set(EASYCONF_SOURCE_PKGCONF "${CMAKE_CURRENT_SOURCE_DIR}/pkgconf/easyconf.pc.in")
+set(EASYCONF_PKGCONF "${CMAKE_CURRENT_BINARY_DIR}/pkgconf/easyconf.pc")
+configure_file(${EASYCONF_SOURCE_PKGCONF} ${EASYCONF_PKGCONF} @ONLY)
 
 # Criterion unit tests
 option(ENABLE_UNIT_TESTS "Enable unit testing with Criterion" OFF)
@@ -50,7 +51,7 @@ install(TARGETS easyconf
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/easyconf)
-install(FILES ${EASYCONF_PC}
+install(FILES ${EASYCONF_PKGCONF}
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 # Compiler flags

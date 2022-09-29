@@ -12,4 +12,3 @@ vgcore.*
 *.gcda
 *.txt
 !CMakeLists.txt
-pkgconf/easyconf.pc
