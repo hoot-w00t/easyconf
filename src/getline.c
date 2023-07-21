@@ -1,11 +1,8 @@
+#include "getline.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 #include <string.h>
-
-#ifndef EC_GETLINE_SIZE
-#define EC_GETLINE_SIZE (256)
-#endif
 
 char *ec_getline(FILE *stream)
 {
@@ -15,7 +12,8 @@ char *ec_getline(FILE *stream)
     size_t line_len;
     size_t ptr_size;
 
-    if (!stream) return NULL;
+    if (!stream)
+        return NULL;
 
     if ((c = fgetc(stream)) == EOF)
         return NULL;
@@ -37,7 +35,8 @@ char *ec_getline(FILE *stream)
         }
         line[line_len - 1] = (char) c;
 
-        if (c == '\n') break;
+        if (c == '\n')
+            break;
         c = fgetc(stream);
     }
     line[line_len] = '\0';
